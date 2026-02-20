@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantTrade Pro - 专业量化交易平台</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <h1>QuantTrade Pro</h1>
+                <span class="subtitle">专业量化交易平台</span>
+            </div>
+            <div class="nav">
+                <button class="nav-button active">市场监控</button>
+                <button class="nav-button">策略管理</button>
+                <button class="nav-button">回测分析</button>
+                <button class="nav-button">实时交易</button>
+                <button class="nav-button">账户设置</button>
+            </div>
+            <div class="user-info">
+                <span class="balance">账户余额: ¥100,000.00</span>
+                <button class="login-button">登录</button>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 市场概览 -->
+            <section class="market-overview">
+                <h2>市场概览</h2>
+                <div class="market-cards">
+                    <div class="market-card">
+                        <h3>上证指数</h3>
+                        <div class="market-price">3,258.63</div>
+                        <div class="market-change positive">+1.24%</div>
+                        <div class="market-volume">成交量: 2.45亿</div>
+                    </div>
+                    <div class="market-card">
+                        <h3>深证成指</h3>
+                        <div class="market-price">10,824.36</div>
+                        <div class="market-change positive">+0.87%</div>
+                        <div class="market-volume">成交量: 3.12亿</div>
+                    </div>
+                    <div class="market-card">
+                        <h3>创业板指</h3>
+                        <div class="market-price">2,156.78</div>
+                        <div class="market-change negative">-0.32%</div>
+                        <div class="market-volume">成交量: 1.87亿</div>
+                    </div>
+                    <div class="market-card">
+                        <h3>恒生指数</h3>
+                        <div class="market-price">18,756.42</div>
+                        <div class="market-change positive">+0.56%</div>
+                        <div class="market-volume">成交量: 1.23亿</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 我的关注股票 -->
+            <section class="my-stocks">
+                <h2>我的关注股票</h2>
+                <div class="my-stocks-controls">
+                    <div class="add-stock">
+                        <input type="text" id="stock-code" placeholder="输入股票代码">
+                        <input type="text" id="stock-name" placeholder="输入股票名称">
+                        <button class="add-stock-button">添加股票</button>
+                    </div>
+                </div>
+                <div class="my-stocks-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>股票名称</th>
+                                <th>股票代码</th>
+                                <th>最新价</th>
+                                <th>涨跌幅</th>
+                                <th>成交量(万手)</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="my-stocks-body">
+                            <!-- 动态生成数据 -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 交易量排名 -->
+            <section class="volume-ranking">
+                <h2>交易量排名前20的股票</h2>
+                <div class="ranking-controls">
+                    <select class="ranking-period">
+                        <option value="day">今日</option>
+                        <option value="week">本周</option>
+                        <option value="month">本月</option>
+                    </select>
+                    <button class="refresh-ranking">手动刷新</button>
+                    <div class="auto-refresh-toggle">
+                        <label>
+                            <input type="checkbox" id="auto-refresh-switch">
+                            启用自动刷新
+                        </label>
+                        <select id="refresh-interval">
+                            <option value="5">5秒</option>
+                            <option value="10">10秒</option>
+                            <option value="30">30秒</option>
+                            <option value="60">60秒</option>
+                        </select>
+                    </div>
+                    <div class="auto-trade-toggle">
+                        <label>
+                            <input type="checkbox" id="auto-trade-switch">
+                            启用自动化交易
+                        </label>
+                    </div>
+                </div>
+                <div class="ranking-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>排名</th>
+                                <th>股票名称</th>
+                                <th>股票代码</th>
+                                <th>最新价</th>
+                                <th>涨跌幅</th>
+                                <th>成交量(万手)</th>
+                                <th>成交额(亿元)</th>
+                                <th>买卖建议</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="volume-ranking-body">
+                            <!-- 动态生成数据 -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 自动化交易设置 -->
+            <section class="auto-trade-section">
+                <h2>自动化交易设置</h2>
+                <div class="auto-trade-controls">
+                    <div class="auto-trade-item">
+                        <h4>交易策略</h4>
+                        <select id="auto-trade-strategy">
+                            <option value="volume-breakout">成交量突破策略</option>
+                            <option value="trend-following">趋势跟随策略</option>
+                            <option value="mean-reversion">均值回归策略</option>
+                        </select>
+                    </div>
+                    <div class="auto-trade-item">
+                        <h4>资金管理</h4>
+                        <div class="fund-settings">
+                            <div class="fund-setting">
+                                <label>单笔交易金额(万元):</label>
+                                <input type="number" id="trade-amount" value="10" min="1" max="100">
+                            </div>
+                            <div class="fund-setting">
+                                <label>最大持仓比例(%):</label>
+                                <input type="number" id="max-position" value="30" min="1" max="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="auto-trade-item">
+                        <h4>交易条件</h4>
+                        <div class="condition-settings">
+                            <div class="condition-setting">
+                                <label>最小涨跌幅(%):</label>
+                                <input type="number" id="min-change" value="2" min="0.1" max="10" step="0.1">
+                            </div>
+                            <div class="condition-setting">
+                                <label>最小成交量(万手):</label>
+                                <input type="number" id="min-volume" value="100" min="10" max="1000">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="save-auto-trade">保存设置</button>
+                </div>
+                <div class="auto-trade-status">
+                    <h4>自动化交易状态</h4>
+                    <div class="status-info">
+                        <span>状态: <strong id="auto-trade-status">未启用</strong></span>
+                        <span>当前持仓: <strong id="current-position">0 只股票</strong></span>
+                        <span>今日交易: <strong id="today-trades">0 笔</strong></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 数据抓取设置 -->
+            <section class="data-scraper-section">
+                <h2>数据抓取设置</h2>
+                <div class="scraper-controls">
+                    <div class="scraper-item">
+                        <h4>数据源选择</h4>
+                        <div class="data-sources">
+                            <label><input type="checkbox" class="source-checkbox" value="sina" checked> 新浪财经</label>
+                            <label><input type="checkbox" class="source-checkbox" value="eastmoney" checked> 东方财富</label>
+                            <label><input type="checkbox" class="source-checkbox" value="hexun"> 和讯财经</label>
+                            <label><input type="checkbox" class="source-checkbox" value="ifeng"> 凤凰财经</label>
+                        </div>
+                    </div>
+                    <div class="scraper-item">
+                        <h4>抓取设置</h4>
+                        <div class="scraper-settings">
+                            <div class="scraper-setting">
+                                <label>抓取频率(分钟):</label>
+                                <input type="number" id="scrape-interval" value="5" min="1" max="60">
+                            </div>
+                            <div class="scraper-setting">
+                                <label>数据保存天数:</label>
+                                <input type="number" id="data-retention" value="7" min="1" max="30">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scraper-actions">
+                        <button class="start-scraper">开始抓取</button>
+                        <button class="stop-scraper" disabled>停止抓取</button>
+                        <button class="test-scraper">测试抓取</button>
+                    </div>
+                </div>
+                <div class="scraper-status">
+                    <h4>抓取状态</h4>
+                    <div class="status-info">
+                        <span>状态: <strong id="scraper-status">未启动</strong></span>
+                        <span>上次抓取: <strong id="last-scrape">从未</strong></span>
+                        <span>抓取数量: <strong id="scrape-count">0</strong></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 行情图表 -->
+            <section class="chart-section">
+                <div class="chart-header">
+                    <h2>行情图表</h2>
+                    <div class="chart-controls">
+                        <select class="symbol-select">
+                            <option>上证指数 (000001.SH)</option>
+                            <option>深证成指 (399001.SZ)</option>
+                            <option>创业板指 (399006.SZ)</option>
+                            <option>恒生指数 (HSI.HK)</option>
+                        </select>
+                        <div class="time-range">
+                            <button class="time-button active">1D</button>
+                            <button class="time-button">1W</button>
+                            <button class="time-button">1M</button>
+                            <button class="time-button">3M</button>
+                            <button class="time-button">1Y</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 策略管理 -->
+            <section class="strategy-section">
+                <h2>策略管理</h2>
+                <div class="strategy-controls">
+                    <button class="strategy-button">创建新策略</button>
+                    <button class="strategy-button">导入策略</button>
+                    <button class="strategy-button">导出策略</button>
+                </div>
+                <div class="strategy-list">
+                    <div class="strategy-item">
+                        <h4>移动平均线策略</h4>
+                        <p>基于5日和20日移动平均线的金叉死叉信号</p>
+                        <div class="strategy-stats">
+                            <span>胜率: 62.5%</span>
+                            <span>年化收益: 18.2%</span>
+                            <span>最大回撤: 12.8%</span>
+                        </div>
+                        <div class="strategy-actions">
+                            <button class="action-button">编辑</button>
+                            <button class="action-button">回测</button>
+                            <button class="action-button">运行</button>
+                        </div>
+                    </div>
+                    <div class="strategy-item">
+                        <h4>MACD策略</h4>
+                        <p>基于MACD指标的买入卖出信号</p>
+                        <div class="strategy-stats">
+                            <span>胜率: 58.3%</span>
+                            <span>年化收益: 15.6%</span>
+                            <span>最大回撤: 10.2%</span>
+                        </div>
+                        <div class="strategy-actions">
+                            <button class="action-button">编辑</button>
+                            <button class="action-button">回测</button>
+                            <button class="action-button">运行</button>
+                        </div>
+                    </div>
+                    <div class="strategy-item">
+                        <h4>RSI策略</h4>
+                        <p>基于RSI指标的超买超卖信号</p>
+                        <div class="strategy-stats">
+                            <span>胜率: 55.7%</span>
+                            <span>年化收益: 12.4%</span>
+                            <span>最大回撤: 8.6%</span>
+                        </div>
+                        <div class="strategy-actions">
+                            <button class="action-button">编辑</button>
+                            <button class="action-button">回测</button>
+                            <button class="action-button">运行</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 提醒设置 -->
+            <section class="alert-section">
+                <h2>买卖提醒设置</h2>
+                <div class="alert-controls">
+                    <div class="alert-item">
+                        <h4>上证指数提醒</h4>
+                        <div class="alert-settings">
+                            <div class="alert-setting">
+                                <label>买入提醒 (低于):</label>
+                                <input type="number" class="alert-input" id="buy-alert" placeholder="输入价格">
+                                <button class="alert-button">设置</button>
+                            </div>
+                            <div class="alert-setting">
+                                <label>卖出提醒 (高于):</label>
+                                <input type="number" class="alert-input" id="sell-alert" placeholder="输入价格">
+                                <button class="alert-button">设置</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-item">
+                        <h4>提醒方式</h4>
+                        <div class="alert-methods">
+                            <label><input type="checkbox" class="alert-checkbox" checked> 网页通知</label>
+                            <label><input type="checkbox" class="alert-checkbox"> 邮件通知</label>
+                            <label><input type="checkbox" class="alert-checkbox"> 短信通知</label>
+                        </div>
+                        <button class="save-alert-button">保存设置</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 回测分析 -->
+            <section class="backtest-section">
+                <h2>回测分析</h2>
+                <div class="backtest-controls">
+                    <select class="backtest-strategy">
+                        <option>移动平均线策略</option>
+                        <option>MACD策略</option>
+                        <option>RSI策略</option>
+                    </select>
+                    <input type="date" class="backtest-start" value="2023-01-01">
+                    <input type="date" class="backtest-end" value="2024-01-01">
+                    <button class="backtest-button">开始回测</button>
+                </div>
+                <div class="backtest-results">
+                    <div class="result-card">
+                        <h3>回测结果</h3>
+                        <div class="result-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">总收益</span>
+                                <span class="stat-value">+24.5%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">年化收益</span>
+                                <span class="stat-value">18.2%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">最大回撤</span>
+                                <span class="stat-value">-12.8%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">胜率</span>
+                                <span class="stat-value">62.5%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">交易次数</span>
+                                <span class="stat-value">48</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">平均持仓周期</span>
+                                <span class="stat-value">5.2天</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-chart">
+                        <h3>资金曲线</h3>
+                        <canvas id="equityChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>关于我们</h4>
+                    <p>QuantTrade Pro 是一个专业的量化交易平台，为投资者提供智能交易策略和回测工具。</p>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p>邮箱: support@quanttradepro.com</p>
+                    <p>电话: 400-123-4567</p>
+                </div>
+                <div class="footer-section">
+                    <h4>免责声明</h4>
+                    <p>本平台提供的策略和工具仅供参考，不构成投资建议。投资有风险，入市需谨慎。</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 QuantTrade Pro. 保留所有权利。</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
